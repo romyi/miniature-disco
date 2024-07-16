@@ -1,15 +1,13 @@
-# Elysia with Bun runtime
+на самом деле не важен порядок, в котором игроки получают доход со зданий
+(блин на самом деле важен так как green опирается на blue)
+важно то, в каком порядке они собирают деньги с текущего игрока.
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+parse (2)
+1 reds
+3 reds
+123 blue 2 green 2 violet
 
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
-
-Open http://localhost:3000/ with your browser to see the result.
+parse (3)
+2 reds
+1 reds
+123 blue 3 green 3 violet
