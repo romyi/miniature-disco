@@ -1,8 +1,5 @@
 import { Elysia, t } from "elysia";
-import { roll } from "./initials/roll";
-import { red_calc } from "./logic/calc-income";
-import { HeroProps, Item, ItemProps } from "./t";
-import { cwse } from "./initials/cwse";
+import { HeroProps, ItemProps } from "./t";
 import { add, init_pool, start } from "./initials/pool";
 
 const items = init_pool();

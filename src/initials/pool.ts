@@ -1,43 +1,48 @@
-import { configs } from "../c";
-import { HeroProps, Pool3 } from "../t";
+import { establishment_pointers } from "../c";
+import { Establishment, HeroProps, modificators, Pool3 } from "../t";
+import { establish_from_group } from "./incomes";
 import { idle, to_roll } from "./states";
 
 const array = new Uint32Array(100);
 
-function build_establishments() {
-  const esb = [];
+function build_establishments(): Establishment[] {
+  const esb = [] as Establishment[];
   const arr = new Uint32Array(200);
-  for (let group of configs) {
-    for (let i = group[0]; i <= group[1]; i++) {
-      esb[i] = { ...group[2], key: self.crypto.getRandomValues(array)[i] };
+  Object.values(establishment_pointers).forEach((config) => {
+    for (let i = config[0]; i <= config[1]; i++) {
+      esb[i] = { ...config[2], key: self.crypto.getRandomValues(array)[i] };
     }
-  }
+  });
   return esb;
+}
+
+function build_mod_table() {
+  const t = {} as Record<(typeof modificators)[number], number[]>;
+  modificators.forEach((mod) => (t[mod] = Array(5).fill(0)));
+  return t;
 }
 
 function init_pool(): Pool3 {
   return {
     heroes: [] as HeroProps[],
+    modificators: build_mod_table(),
     dice: [{ title: "item", name: "dice", data: [1, 1] }],
     establishment: build_establishments(),
   };
 }
 
 function add(name: string, pool: Pool3) {
-  pool.heroes.push({
+  const nl = pool.heroes.push({
     title: "hero",
     name,
     state: idle,
     balance: 10,
+    stats: {},
   });
-  const field = pool.establishment.find(
-    (est) => est.title === "wheat field" && est.state === null
-  );
-  if (field) field.state = name;
-  const bakery = pool.establishment.find(
-    (est) => est.title === "bakery" && est.state === null
-  );
-  if (bakery) bakery.state = name;
+  establish_from_group(pool, "bake", nl - 1);
+  establish_from_group(pool, "corn", nl - 1);
+  establish_from_group(pool, "corn", nl - 1);
+  establish_from_group(pool, "corn", nl - 1);
 }
 
 function start(pool: Pool3) {

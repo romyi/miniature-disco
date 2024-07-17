@@ -2,20 +2,28 @@ export type HeroProps = {
   title: "hero";
   balance: number;
   name: string;
+  stats: Record<string, number>;
   state: {
     name: string;
     do: (pool: Pool3, item: ItemProps, hero: HeroProps) => void;
   };
 };
 
+export const modificators = ["corn", "bake"] as const;
+export type ModKeys = (typeof modificators)[number];
+
 export interface Establishment {
   key: number;
-  title: string;
+  title: ModKeys;
   state: string | null;
   dice_roll: number;
-  blue?: { income: number; tags: string[] };
+  blue?: { income: number };
   red?: { income: number };
-  green?: { income: number; modifiers: string[] };
+  green?: { income: number; modifier: ModKeys };
+}
+
+interface Blue {
+  blue: { income: number; tags: ModKeys[] };
 }
 
 export type ItemProps = {
@@ -29,7 +37,6 @@ export type Item = HeroProps | ItemProps | Establishment | null;
 export type Pool3 = {
   heroes: HeroProps[];
   dice: ItemProps[];
+  modificators: Record<ModKeys, number[]>;
   establishment: Establishment[];
 };
-
-export type EstablishmentConfig = [number, number, Establishment];

@@ -1,34 +1,32 @@
-import { EstablishmentConfig } from "./t";
+import { Establishment, ModKeys } from "./t";
 
 export const HEROES = [0, 1, 2, 3, 4];
-export const DICE = 5;
-export const ESTABLISHMENTS = [10, 99];
 export const SIZE = 100;
 
-const whf = {
-  title: "wheat field",
+const corn = {
+  title: "corn",
   key: 1,
   state: null,
   dice_roll: 1,
-  cost: 1,
   blue: {
     income: 1,
-    tags: ["wheat_field", "agriculture"],
   },
-};
-const bkr = {
-  title: "bakery",
+} satisfies Establishment;
+const bake = {
+  title: "bake",
   key: 1,
   state: null,
   dice_roll: 3,
-  cost: 1,
   green: {
     income: 1,
-    modifiers: ["wheat_field"],
+    modifier: "corn",
   },
+} satisfies Establishment;
+
+export const establishment_pointers: Record<
+  ModKeys,
+  [number, number, Establishment]
+> = {
+  corn: [0, 9, corn],
+  bake: [10, 19, bake],
 };
-
-const whf_config: EstablishmentConfig = [0, 4, whf];
-const bkr_config: EstablishmentConfig = [5, 9, bkr];
-
-export const configs = [whf_config, bkr_config];
