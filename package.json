@@ -6,7 +6,8 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "elysia": "latest",
+    "fast-shuffle": "^6.1.0"
   },
   "devDependencies": {
     "bun-types": "latest"

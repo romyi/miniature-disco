@@ -42,6 +42,51 @@ export function industries(items: Pool3) {
   });
 }
 
+function reverse_sequence(items: HeroProps[]) {
+  let turns = items.findIndex((hero) => hero.state.name !== "idle");
+  const sequence = Array(items.length).fill(null);
+  for (let i = 0; i < 5; i++) {
+    sequence[i] = turns;
+    turns = turns === 0 ? 4 : turns - 1;
+  }
+  return sequence;
+}
+
+export function services(items: Pool3) {
+  const reverse = reverse_sequence(items.heroes);
+  const turns_index = reverse[0];
+  reverse.forEach((index) => {
+    if (items.heroes[index] === undefined) return;
+    if (index === turns_index) return;
+    const turner = items.heroes[turns_index].name;
+    const benefit = items.heroes[index].name;
+    for (let establishment of items.establishment.filter(
+      (establishment) =>
+        establishment.state === benefit &&
+        items.dice[0].data.includes(establishment.dice_roll)
+    )) {
+      if (!establishment.red) continue;
+      if (items.heroes[turns_index].balance >= establishment.red.income) {
+        console.log(
+          turner + " - " + establishment.red.income + " -> " + benefit
+        );
+        items.heroes[index].balance += establishment.red.income;
+        items.heroes[turns_index].balance -= establishment.red.income;
+        continue;
+      }
+      if (items.heroes[turns_index].balance === 0) {
+        console.log(turner + " -nothing-> " + benefit);
+        continue;
+      }
+      items.heroes[index].balance += items.heroes[turns_index].balance;
+      console.log(
+        turner + " - " + items.heroes[turns_index].balance + " -> " + benefit
+      );
+      items.heroes[turns_index].balance = 0;
+    }
+  });
+}
+
 export function establish_from_group(
   items: Pool3,
   type: ModKeys,

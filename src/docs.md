@@ -1,14 +1,9 @@
-hero
-    state
-    gold                10
-    est_stats
-        agricultures    1
-        livestocks      3
+effects
+    field           1   2   1   0   1
+    livestock       1   0   1   0   0
+    agricultural    1   3   1   2   1
+    industrial      2   0   0   0   3
 
-cwse 
-    counter?    true
-    start       number 
-    inclusive?  true
-
-to_roll
-    
+i hero index
+e effect
+pool[effects_index][e][i] * establishment.income

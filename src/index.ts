@@ -5,24 +5,21 @@ import { add, init_pool, start } from "./initials/pool";
 const items = init_pool();
 add("Tanya", items);
 add("Wanda", items);
-add("Sasha", items);
-add("Natasha", items);
 start(items);
 
 const app = new Elysia()
   .ws("/", {
     open(ws) {
       ws.send({ items });
+      ws.subscribe("test");
     },
     message(ws, message) {
-      const item =
-        //@ts-expect-error
-        items[message.type as "dice" | "establishment"][message.item as number];
       //@ts-expect-error
-      const hero = items.heroes[message.hero as number];
-      if (!item || !hero) return;
-      hero.state.do(items, item as ItemProps, hero as HeroProps);
-      ws.send({ items });
+      const hero = items.heroes[message.data.hero];
+      if (!hero) return;
+      //@ts-expect-error
+      hero.state.do(items, message.data);
+      ws.publish("test", { items });
     },
   })
   .listen(3000);

@@ -23,10 +23,21 @@ const bake = {
   },
 } satisfies Establishment;
 
+const rest = {
+  title: "rest",
+  key: 1,
+  state: null,
+  dice_roll: 2,
+  red: {
+    income: 2,
+  },
+} satisfies Establishment;
+
 export const establishment_pointers: Record<
   ModKeys,
   [number, number, Establishment]
 > = {
   corn: [0, 9, corn],
   bake: [10, 19, bake],
+  rest: [20, 29, rest],
 };

@@ -5,11 +5,11 @@ export type HeroProps = {
   stats: Record<string, number>;
   state: {
     name: string;
-    do: (pool: Pool3, item: ItemProps, hero: HeroProps) => void;
+    do: (pool: Pool3, data: unknown) => void;
   };
 };
 
-export const modificators = ["corn", "bake"] as const;
+export const modificators = ["corn", "bake", "rest"] as const;
 export type ModKeys = (typeof modificators)[number];
 
 export interface Establishment {

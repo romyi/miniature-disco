@@ -1,6 +1,6 @@
 import { establishment_pointers } from "../c";
 import { Establishment, HeroProps, modificators, Pool3 } from "../t";
-import { establish_from_group } from "./incomes";
+import { establish_from_group, services } from "./incomes";
 import { idle, to_roll } from "./states";
 
 const array = new Uint32Array(100);
@@ -41,8 +41,7 @@ function add(name: string, pool: Pool3) {
   });
   establish_from_group(pool, "bake", nl - 1);
   establish_from_group(pool, "corn", nl - 1);
-  establish_from_group(pool, "corn", nl - 1);
-  establish_from_group(pool, "corn", nl - 1);
+  establish_from_group(pool, "rest", nl - 1);
 }
 
 function start(pool: Pool3) {
